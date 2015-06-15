@@ -1,0 +1,12 @@
+box: wercker/python
+services:
+  - wercker/mysql
+build:
+  steps:
+    - virtualenv:
+        name: setup virtual environment
+    - pip-install:
+        requirements_file: "requirements/base.txt"
+    - script:
+        name: Run unit tests
+        code: python manage.py test --settings={{ cookiecutter.repo_name }}.settings.ci
