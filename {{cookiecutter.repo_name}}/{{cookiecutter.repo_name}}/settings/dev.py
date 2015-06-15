@@ -1,4 +1,4 @@
-from .base import *
+from .base import *  # NOQA
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -8,6 +8,15 @@ TEMPLATE_DEBUG = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'CHANGEME!!!'
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '{{ cookiecutter.repo_name }}',
+        'USER': 'vagrant',
+        'PASSWORD': 'vagrant'
+    }
+}
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -15,9 +24,3 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Helpful for local development and running tests
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 CELERY_ALWAYS_EAGER = True
-
-
-try:
-    from .local import *
-except ImportError:
-    pass

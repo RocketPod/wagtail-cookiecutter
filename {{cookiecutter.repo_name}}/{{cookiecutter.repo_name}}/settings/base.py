@@ -93,7 +93,7 @@ WSGI_APPLICATION = '{{ cookiecutter.repo_name }}.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': '{{ cookiecutter.repo_name }}',
     }
 }
@@ -155,7 +155,8 @@ CACHES = {
 }
 
 
-# Use Elasticsearch as the search backend for extra performance and better search results
+# Use Elasticsearch as the search backend for extra performance and better
+# search results
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
@@ -168,7 +169,7 @@ WAGTAILSEARCH_BACKENDS = {
 # Celery settings
 # When you have multiple sites using the same Redis server,
 # specify a different Redis DB. e.g. redis://localhost/5
- 
+
 BROKER_URL = 'redis://'
 
 CELERY_SEND_TASK_ERROR_EMAILS = True

@@ -1,0 +1,14 @@
+---
+- name: Install elasticsearch
+  pkgng: name=elasticsearch state=present
+  sudo: true
+
+- name: Start elasticsearch at startup
+  lineinfile: dest=/etc/rc.conf
+              regexp=^elasticsearch_enable=
+              line='elasticsearch_enable="YES"'
+  sudo: true
+
+- name: Start ElasticSearch
+  service: name=elasticsearch state=started
+  sudo: true

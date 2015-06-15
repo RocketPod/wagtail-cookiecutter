@@ -1,0 +1,7 @@
+---
+{% raw %}
+mysql_root_password: root
+db_name: "{{ project_name }}"
+db_user: vagrant
+db_pass: vagrant
+{% endraw %}

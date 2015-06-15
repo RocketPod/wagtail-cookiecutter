@@ -1,0 +1,4 @@
+---
+- name: mysql-start
+  service: name=mysql-server state=started
+  sudo: true

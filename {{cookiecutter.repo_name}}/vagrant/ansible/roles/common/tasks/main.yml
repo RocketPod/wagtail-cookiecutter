@@ -1,0 +1,16 @@
+---
+{% raw %}
+- name: Add lines to .bashrc
+  lineinfile: dest=/home/vagrant/.bash_profile
+              line="{{ item }}"
+              create=yes
+              insertafter=EOF
+  with_items:
+    - "export PYTHONPATH=/vagrant"
+    - "export DJANGO_SETTINGS_MODULE={{ project_name }}.settings.dev"
+    - "alias dj='django-admin'"
+    - "alias djrun='dj runserver 0.0.0.0:8000'"
+    - "alias djcelery='celery -A {{ project_name }} worker -B --loglevel=info -s /tmp/celerybeat-schedule \\$1'"
+    - "source {{ virtualenv_dir }}/bin/activate"
+    - "cd /vagrant"
+{% endraw %}

@@ -1,0 +1,12 @@
+---
+{% raw %}
+virtualenv_dir: /home/vagrant/.virtualenvs/{{ project_name }}
+django_settings_module: "{{ project_name }}.settings.dev"
+
+system_packages:
+  - htop
+
+python_packages:
+  - virtualenv
+  - wheel
+{% endraw %}
