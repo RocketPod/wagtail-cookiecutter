@@ -30,7 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         ansible_python_interpreter: "/usr/local/bin/python",
       }
       ansible.host_key_checking = false
-      ansible.playbook = "vagrant/ansible/vagrant.yml"
+      ansible.playbook = "ansible/vagrant.yml"
       ansible.sudo = true
     end
   end
