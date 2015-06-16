@@ -1,0 +1,59 @@
+{% raw %}
+upstream {{ project_name }}_{{ env }} {
+  # fail_timeout=0 means we always retry an upstream even if it failed
+  # to return a good HTTP response (in case the Unicorn master nukes a
+  # single worker for timing out).
+
+  server unix:/tmp/{{ project_name }}.{{ env }}.wsgi.sock fail_timeout=0;
+}
+
+{% if env == 'prod' %}
+server {
+  listen 80;
+  server_name www.{{ project_url }};
+  return 301 $scheme://{{ project_url }}$request_uri;
+}
+{% endif %}
+
+server {
+  listen              80;
+  server_name         {{ project_url }};
+
+  access_log {{ project_root }}/log/nginx-access.log;
+  error_log {{ project_root }}/log/nginx-error.log;
+
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  location /static/ {
+    alias {{ project_root }}/static/;
+  }
+
+  location / {
+    include            uwsgi_params;
+    uwsgi_pass         {{ project_name }}_{{ env }};
+
+    proxy_redirect          off;
+    proxy_set_header        Host $host;
+    proxy_set_header        X-Real-IP $remote_addr;
+    proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header        X-Forwarded-Host $server_name;
+    proxy_read_timeout      300;
+    proxy_connect_timeout   300;
+  }
+
+  # Error pages
+  error_page 500 502 503 504 /500.html;
+  location = /500.html {
+    root {{ project_root }}/static/;
+  }
+}
+{% endraw %}

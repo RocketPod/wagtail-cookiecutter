@@ -1,0 +1,21 @@
+---
+{% raw %}
+- name: Template nginx config file
+  template: src=django.nginx.conf.j2
+            dest=/usr/local/etc/nginx/sites-available/{{ project_url }}
+            owner=root
+            group=wheel
+            mode=0644
+  sudo: true
+
+- name: Link nginx configuration file.
+  file: state=link
+        src=/usr/local/etc/nginx/sites-available/{{ project_url }}
+        dest=/usr/local/etc/nginx/sites-enabled/{{ project_url }}
+        owner=root
+        group=wheel
+        mode=0644
+  sudo: true
+  notify:
+    - restart nginx
+{% endraw %}

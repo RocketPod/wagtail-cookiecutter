@@ -1,0 +1,17 @@
+---
+{% raw %}
+- name: Install uwsgi task
+  template: src=uwsgi.conf.j2
+            dest=/usr/local/etc/supervisor/conf.d/{{ project_name }}_{{ env }}_uwsgi.conf
+            owner=root
+            group=wheel
+            mode=0644
+  sudo: true
+  notify:
+    - uwsgi-start
+
+- name: Ensure supervisor is started
+  service: name=supervisord state=restarted
+  sudo: true
+  ignore_errors: yes
+{% endraw %}

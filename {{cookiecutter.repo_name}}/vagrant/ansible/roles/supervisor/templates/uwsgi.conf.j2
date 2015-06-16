@@ -1,0 +1,11 @@
+{% raw %}
+[program:{{ project_name }}_{{ env }}_uwsgi]
+autostart = true
+user = {{ app_user }}
+command = /usr/local/bin/uwsgi --ini {{ project_dir }}/run/uwsgi.ini
+directory={{ project_dir }}
+priority = 1
+redirect_stderr = true
+stdout_logfile = {{ project_dir }}/log/wsgi.log
+stopsignal = QUIT
+{% endraw %}

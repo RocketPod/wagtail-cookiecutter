@@ -1,0 +1,19 @@
+{% raw %}
+[uwsgi]
+chdir={{ project_dir }}/
+module={{ project_name }}.wsgi:application
+env=DJANGO_SETTINGS_MODULE={{ django_settings_module }}
+home={{ virtual_env_dir }}
+master=True
+vacuum=True
+need-app=True
+thunder-lock=True
+processes=5
+max-requests=5000
+pidfile=/tmp/{{ project_name }}.{{ env }}.uwsgi.pid
+socket=/tmp/{{ project_name }}.{{ env }}.wsgi.sock
+chmod-socket=666
+gid={{ app_group }}
+disable-logging=False
+log-maxsize=10M
+{% endraw %}

@@ -1,0 +1,42 @@
+---
+{% raw %}
+- name: Add app user group
+  group: name={{ app_user }}
+  sudo: true
+
+- name: Add app user
+  user: name={{ app_user }}
+        group={{ app_group }}
+        state=present
+        system=yes
+  sudo: true
+
+- name: Create project root
+  file: state=directory
+        path={{ project_dir }}
+        owner={{ app_user }}
+        group={{ app_group }}
+        mode=775
+  sudo: true
+
+- name: Pull sources from the repository.
+  git: repo={{ project_repo }}
+       dest={{ project_dir }}/
+       version={{ project_branch }}
+       accept_hostkey=yes
+
+- name: Create run folder
+  file: state=directory
+        path={{ project_dir }}/run/
+        owner={{ app_user }}
+        group={{ app_group }}
+  sudo: true
+
+- name: Tempalte uwsgi.ini
+  template: src=uwsgi.ini.j2
+            dest={{ project_dir }}/run/uwsgi.ini
+            owner={{ app_user }}
+            group={{ app_group }}
+            mode=0644
+  sudo: true
+{% endraw %}
