@@ -4,12 +4,12 @@
   user: vagrant
   sudo: false
   vars:
-    env: development
+    env: dev
+    project_dir: /vagrant
     project_name: {{ cookiecutter.repo_name }}
     ansible_python_interpreter: /usr/local/bin/python
   roles:
     - vagrant
-    - common
     - mysql
     - elasticsearch
     - django

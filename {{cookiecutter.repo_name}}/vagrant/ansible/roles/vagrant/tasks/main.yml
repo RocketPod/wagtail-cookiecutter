@@ -1,5 +1,19 @@
 ---
 # Vagrant spesific tasks
+{% raw %}
+- name: Add lines to .bashrc
+  lineinfile: dest=/home/vagrant/.bash_profile
+              line="{{ item }}"
+              create=yes
+              insertafter=EOF
+  with_items:
+    - "export PYTHONPATH={{ project_dir }}"
+    - "export DJANGO_SETTINGS_MODULE={{ project_name }}.settings.dev"
+    - "alias dj='django-admin'"
+    - "alias djrun='dj runserver 0.0.0.0:8000'"
+    - "alias djcelery='celery -A {{ project_name }} worker -B --loglevel=info -s /tmp/celerybeat-schedule \\$1'"
+    - "source {{ virtualenv_dir }}/bin/activate"
+    - "cd {{ project_dir }}"
 
 - name: Ensure pkg is up to date
   shell: ALWAYS_ASSUME_YES=1 yes | pkg upgrade pkg
@@ -22,4 +36,4 @@
   notify:
     - start statd
   sudo: true
-
+{% endraw %}

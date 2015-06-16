@@ -1,0 +1,19 @@
+---
+- name: Check if pip3.4 is installed
+  stat: path=/usr/local/bin/pip3.4
+  register: pip34
+
+- name: Download get-pip.py
+  get_url: url=https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py
+           dest=/tmp/get-pip.py
+  when: not pip34.stat.exists
+
+- name: Install pip-3.4
+  command: python3.4 /tmp/get-pip.py
+  sudo: true
+  when: not pip34.stat.exists
+
+- name: Updated pip3.4
+  command: python3.4 /tmp/get-pip.py
+  sudo: true
+  when: not pip34.stat.exists

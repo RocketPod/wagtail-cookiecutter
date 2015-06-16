@@ -7,8 +7,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "freebsd-10.1-amd64"
   config.vm.box_url = "http://10.0.0.161:1337/freebsd-10.1-amd64.box"
 
-  #config.vm.synced_folder ".", "/vagrant", :disabled => true
-
   config.vm.define "webserver" do |webserver|
     # setup private network so we can use nfs
     config.vm.network :private_network, ip: "10.10.0.2"
