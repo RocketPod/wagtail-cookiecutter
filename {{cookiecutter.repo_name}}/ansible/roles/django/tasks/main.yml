@@ -12,10 +12,18 @@
         mode=0755
 
 - name: Install development requirements
+  pip: requirements="{{ project_dir }}/requirements/dev.txt"
+       executable=pip3.4
+       virtualenv_command=pyvenv-3.4
+       virtualenv={{ virtualenv_dir }}
+  when: "env == 'dev'"
+
+- name: Install requirements
   pip: requirements="{{ project_dir }}/requirements.txt"
        executable=pip3.4
        virtualenv_command=pyvenv-3.4
        virtualenv={{ virtualenv_dir }}
+  when: "env != 'dev'"
 
 - name: Create virtualenv .project file
   lineinfile: dest="{{ virtualenv_dir }}/.project"
