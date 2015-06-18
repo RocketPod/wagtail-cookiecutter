@@ -10,7 +10,7 @@
     - "export PYTHONPATH={{ project_dir }}"
     - "export DJANGO_SETTINGS_MODULE={{ project_name }}.settings.dev"
     - "alias dj='django-admin'"
-    - "alias djrun='dj runserver 0.0.0.0:8000'"
+    - "alias djrun='dj runserver_plus 0.0.0.0:8000'"
     - "alias djcelery='celery -A {{ project_name }} worker -B --loglevel=info -s /tmp/celerybeat-schedule \\$1'"
     - "source {{ virtualenv_dir }}/bin/activate"
     - "cd {{ project_dir }}"
