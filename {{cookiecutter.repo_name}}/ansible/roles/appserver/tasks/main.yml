@@ -32,6 +32,15 @@
         group={{ app_group }}
   sudo: true
 
+- name: Create log folder
+  file: state=directory
+        path={{ project_dir }}/log/
+        owner={{ app_user }}
+        group={{ app_group }}
+  sudo: true
+
+- include: uwsgi.yml
+
 - name: Tempalte uwsgi.ini
   template: src=uwsgi.ini.j2
             dest={{ project_dir }}/run/uwsgi.ini

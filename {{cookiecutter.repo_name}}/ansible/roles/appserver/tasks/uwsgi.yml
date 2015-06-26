@@ -1,0 +1,45 @@
+---
+
+# Instals uWSGI from source and builds plugins for Python 2.7 and 3.4. Any old
+# versions of uwsgi should be manually removed before execution.
+
+- name: Check if uWSGI is installed
+  stat: path=/usr/local/bin/uwsgi
+  register: uwsgi_installed
+
+- name: Fetch uWSGI source
+  get_url: url=https://github.com/unbit/uwsgi/archive/{{ uwsgi_version }}.tar.gz
+           dest=/tmp/uwsgi.tar.gz
+  when: not uwsgi_installed.stat.exists
+
+- name: Extract uWSGI source
+  unarchive: src=/tmp/uwsgi.tar.gz
+             dest=/tmp/
+             copy=no
+             creates=/tmp/uwsgi-{{ uwsgi_version }}
+  when: not uwsgi_installed.stat.exists
+
+- name: Create uWSGI plugin directory
+  file: path=/usr/local/lib/uwsgi
+        state=directory
+        owner=root
+        group=wheel
+  sudo: true
+  when: not uwsgi_installed.stat.exists
+
+- name: Make uWSGI and uwsgi plugins
+  shell: cd /tmp/uwsgi-{{ uwsgi_version }} && {{ item }}
+  with_items:
+    - make PROFILE=nolang
+    - PYTHON=python3.4 ./uwsgi --build-plugin "plugins/python python34"
+    - PYTHON=python2.7 ./uwsgi --build-plugin "plugins/python python27"
+  when: not uwsgi_installed.stat.exists
+
+- name: Move uWSGI and plugins to respective locations
+  shell: cd /tmp/uwsgi-{{ uwsgi_version }} && {{ item }}
+  with_items:
+    - mv python34_plugin.so /usr/local/lib/uwsgi/
+    - mv python27_plugin.so /usr/local/lib/uwsgi/
+    - mv uwsgi /usr/local/bin
+  sudo: true
+  when: not uwsgi_installed.stat.exists

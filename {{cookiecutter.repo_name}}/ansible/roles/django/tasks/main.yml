@@ -32,13 +32,25 @@
 
 - name: Run manage.py migrate
   django_manage: command="migrate --noinput"
-                 app_path=/vagrant
+                 app_path={{ project_dir }}
                  settings={{ django_settings_module }}
                  virtualenv={{ virtualenv_dir }}
+  sudo: true
+  sudo_user: "{{ app_user }}"
 
 - name: Run manage.py update_index
   django_manage: command=update_index
-                 app_path=/vagrant
+                 app_path={{ project_dir }}
                  settings={{ django_settings_module }}
                  virtualenv={{ virtualenv_dir }}
+  sudo: true
+  sudo_user: "{{ app_user }}"
+
+- name: Run manage.py compress
+  django_manage: command=compress
+                 app_path={{ project_dir }}
+                 settings={{ django_settings_module }}
+                 virtualenv={{ virtualenv_dir }}
+  sudo: true
+  sudo_user: "{{ app_user }}"
 {% endraw %}
