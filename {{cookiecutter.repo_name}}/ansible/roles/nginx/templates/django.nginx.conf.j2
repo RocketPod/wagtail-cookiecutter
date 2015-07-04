@@ -37,6 +37,10 @@ server {
     alias {{ project_dir }}/static/;
   }
 
+  location /media/ {
+    alias {{ project_dir }}/media/;
+  }
+
   location / {
     include            uwsgi_params;
     uwsgi_pass         {{ project_name }}_{{ env }};
