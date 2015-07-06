@@ -6,8 +6,8 @@
   vars:
     env: dev
     project_dir: /vagrant
-    project_user: vagrant
-    project_group: vagrant
+    app_user: vagrant
+    app_group: vagrant
     project_name: {{ cookiecutter.repo_name }}
     ansible_python_interpreter: /usr/local/bin/python
   roles:

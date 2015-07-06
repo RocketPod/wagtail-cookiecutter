@@ -51,6 +51,7 @@
                  app_path={{ project_dir }}
                  settings={{ django_settings_module }}
                  virtualenv={{ virtualenv_dir }}
+  when: "env != 'dev'"
   sudo: true
   sudo_user: "{{ app_user }}"
 {% endraw %}
